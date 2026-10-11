@@ -151,4 +151,28 @@ public_users.get('/review/:isbn',function (req, res) {
     }
 });
 
+// TASK 13 - Book by Title with Promise
+public_users.get('/books/title/:title',function (req, res) {
+    let title = req.params.title;
+    let myPromise = new Promise((resolve, reject) => {
+      let filtered_books = [];
+      for (let isbn in books) {
+        if (books[isbn].title === title) {
+          filtered_books.push(books[isbn]);
+        }
+      }
+      if (filtered_books.length > 0) {
+        resolve(filtered_books);
+      } else {
+        reject("Title not found");
+      }
+    });
+  
+    myPromise.then((result) => {
+      res.send(JSON.stringify(result, null, 4));
+    }).catch((err) => {
+      res.status(404).json({message: err});
+    });
+  });
+
 module.exports.general = public_users;
