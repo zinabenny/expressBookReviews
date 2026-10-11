@@ -94,7 +94,30 @@ public_users.get('/author/:author',function (req, res) {
       res.status(404).json({message: "Author not found"});
     }
 });
-
+//  TASK 12 - Book by Author with Promise 
+public_users.get('/books/author/:author',function (req, res) {
+    let author = req.params.author;
+    let myPromise = new Promise((resolve, reject) => {
+      let filtered_books = [];
+      for (let isbn in books) {
+        if (books[isbn].author === author) {
+          filtered_books.push(books[isbn]);
+        }
+      }
+      if (filtered_books.length > 0) {
+        resolve(filtered_books);
+      } else {
+        reject("Author not found");
+      }
+    });
+  
+    myPromise.then((result) => {
+      res.send(JSON.stringify(result, null, 4));
+    }).catch((err) => {
+      res.status(404).json({message: err});
+    });
+});
+  
 // Get all books based on title
 public_users.get('/title/:title',function (req, res) {
     const title = req.params.title;
