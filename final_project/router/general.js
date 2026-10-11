@@ -4,7 +4,7 @@ let isValid = require("./auth_users.js").isValid;
 let users = require("./auth_users.js").users;
 const public_users = express.Router();
 
-
+//Register new user
 public_users.post("/register", (req,res) => {
     const username = req.body.username;
     const password = req.body.password;
@@ -28,7 +28,7 @@ public_users.post("/register", (req,res) => {
 public_users.get('/',function (req, res) {
   res.status(200).send(JSON.stringify(books, null, 4));
 });
-
+//Task 10 - adding promise callbacks to get books
 public_users.get('/books',function (req, res) {
     const getBooks = new Promise((resolve, reject) => {
       // Simulate async operation
@@ -54,7 +54,7 @@ public_users.get('/isbn/:isbn',function (req, res) {
     const isbn = req.params.isbn;
     res.send(JSON.stringify(books[isbn], null, 4));
 });  
-// TASK 11
+// TASK 11 - promise callbacks to Get book details based on ISBN
 public_users.get('/books/isbn/:isbn',function (req, res) {
     let isbn = req.params.isbn;
     let myPromise = new Promise((resolve, reject) => {
